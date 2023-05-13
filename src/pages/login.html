@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kenzie Empresas</title>
+
+    <!-- styles -->
+    <link rel="stylesheet" href="../styles/reset.css">
+    <link rel="stylesheet" href="../styles/globalStyles.css">
+    <link rel="stylesheet" href="../styles/button.css">
+    <link rel="stylesheet" href="../styles/loginRegister.css">
+
+    <!-- script -->
+    <script defer type="module" src="../scripts/login.js"></script>
+</head>
+<body>
+    <header class="header__container">
+        <div class="header__items">
+            <div class="logo__container">
+                <img src="../assets/Ellipse 1.svg" alt="">
+                <img src="../assets/Kenzie Empresas.svg" alt="">
+            </div>
+            <div>
+                <button class="white__button home">home</button>
+                <button class="blue__button register">register</button>
+            </div>
+
+        </div>
+    </header>
+
+    <main class="main__container">
+        <img src="../assets/Rectangle 7.svg" alt="">
+
+        <form>
+            <h1>Login</h1>
+            <p>Preencha os campos para realizar login</p>
+            <input class="login__input" placeholder="Seu e-mail" type="email" name="email">
+            <input class="login__input" placeholder="Sua senha" type="password" name="password">
+            <button class="blue__button login__button">Login</button>
+            <p class="ou">ou</p>
+            <button type="button" class="white__button register">Cadastre-se</button>
+        </form>
+    </main>
+
+    <!-- Código do TOAST -->
+    <div class="toast__container hidden">
+        <p>Login realizado com sucesso</p>
+    </div>
+</body>
+</html>

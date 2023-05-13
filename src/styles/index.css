@@ -1,0 +1,53 @@
+.main__container {
+    display: flex;
+    gap: 80px;
+
+    width: 1190px;
+    max-width: 100%;
+    margin: 43px auto;
+}
+
+.select__button {
+    width: 556px;
+}
+
+h2 {
+    font-weight: var(--font-weight-1);
+    font-size: var(--font-1);
+    padding-top: 27px;
+    padding-left: 33px;
+    background-color: var(--color-background-1);
+}
+
+ul {
+    padding: 27px 33px;
+    background-color: var(--color-background-1);
+}
+
+li {
+    display: flex;
+    flex-direction: column;
+    font-size: var(--font-2);
+    font-weight: var(--font-weight-1);
+    width: 489px;
+
+    margin-top: 22px;
+    border: 1px solid var(--color-brand-1);
+}
+
+li > p {
+    margin: 21px 0 0 25px;
+}
+
+li > button {
+    border: 1px solid var(--color-brand-1);
+    color: var(--color-brand-1);
+
+    font-weight: var(--font-weight-0);
+    font-size: var(--font-4);
+    border-radius: 15.9375rem;
+    padding: .375rem 1.625rem;
+    width: 80%;
+    margin: 10px 0 26px 25px;
+    cursor: auto;
+}

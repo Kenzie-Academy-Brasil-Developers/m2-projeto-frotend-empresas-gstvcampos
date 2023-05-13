@@ -1,0 +1,72 @@
+img {
+    width: 100%;
+}
+
+.main__container {
+    position: relative;
+    width: 100%;
+
+}
+  
+form {
+    position: absolute;
+    top: 143px;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+
+    background-color: var(--color-background-0);
+
+    width: 506px;
+    height: 489px;
+}
+
+.form{
+    height: 459px; 
+}
+  
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    width: 380px;
+    padding: 17px;
+
+    margin-left: 42px;
+    margin-bottom: 13px;
+    margin-right: 42px;
+
+    border: 1px solid var(--color-border);
+    background-color: var(--color-white);
+}
+  
+form > h1 {
+    font-size: var(--font-0);
+    font-weight: var(--font-weight-1);
+    
+    margin-top: 40px;
+    margin-left: 42px;
+    margin-bottom: 11px;
+}
+
+form > p {
+    font-size: var(--font-3);
+    font-weight: var(--font-weight-0);
+
+    margin-left: 42px;
+    margin-bottom: 24px;
+}
+
+form > button {
+    width: 416px;
+    margin-left: 42px;
+}
+
+.ou {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 240px;
+}
+
+.submit__button {
+    margin-bottom: 12px;
+}
