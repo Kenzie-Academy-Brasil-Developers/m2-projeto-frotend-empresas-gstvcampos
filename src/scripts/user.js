@@ -37,6 +37,7 @@ async function renderPage() {
     const div = document.querySelector('.div__company')
 
     if (companyID !== null) {
+        div.innerHTML = ''
         const companyInfo = await companyRequest(companyID)
         const departmentInfo = await departmentRequest(departmentID)
 
@@ -50,9 +51,17 @@ async function renderPage() {
         company.innerText = companyInfo.name
         department.innerText = departmentInfo.name
 
+        titleDiv.append(company, department)
+
         departmentInfo.employees.forEach(employee => {
-            console.log(employee)
+            const li = document.createElement('li')
+            const employeeName = document.createElement('h3')
+
+            employeeName.classList.add('employee__name')
+            ul.appendChild(li)
         });
+
+        div.append(titleDiv, ul)
     }
 }
 
