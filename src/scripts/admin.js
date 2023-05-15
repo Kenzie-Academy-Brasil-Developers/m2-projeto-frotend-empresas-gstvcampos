@@ -1,9 +1,18 @@
 import { toast, red, green } from "./toast.js"
 
 import { readAll } from "./requests.js"
-import { allEmployeesRequest, allDepartmentsRequest, updateDepartment, createDepartment } from "./adminRequests.js"
+import { allEmployeesRequest, allDepartmentsRequest, updateDepartment, createDepartment, deleteDepartment, outOfWorkRequest, updateEmployee, dismissEmployee } from "./adminRequests.js"
 import { renderSelect, renderDepartments, renderUsers } from "./adminRender.js"
 
+//segurança da pagina de admin
+function authentication() {
+    const token = localStorage.getItem("authToken");
+  
+    if (!token) {
+      location.replace("../../index.html");
+    }
+}
+  
 // sair da pagina e limpar localStorage
 function handleLogout() {
     const logout = document.querySelector('.logout')
@@ -91,10 +100,11 @@ async function handleCreate() {
                 console.log(createBody)
 
                 await createDepartment(createBody)
-                closeModal()
+                
                 //função cadastrar
             }
         })
+        closeModal()
     })
 }
 
@@ -235,12 +245,14 @@ async function handleEditDepartment() {
     })
 }
 
+//abrir modal para deletar o departamento
 async function handleDeleteDepartment() {
     const buttons = document.querySelectorAll('.dep__delete')
 
     const modal = document.querySelector('.dialog__delete')
     const editButton = document.querySelector('.button__edit--dep')
     const deleteButton = document.querySelector('.delete__name--dep')
+    const name = document.querySelector('.delete__name--dep')
 
     const departments = await allDepartmentsRequest()
     
@@ -250,23 +262,16 @@ async function handleDeleteDepartment() {
             modal.showModal()
             
             const departmentId = button.value
-            const description = input.value
-            let departmentName = ''
 
             departments.forEach(depart => {
                 if(depart.id == departmentId) {
-                    departmentName = depart.name
+                    name = "Realmente deseja remover o"+ depart.name +" e demitir seus funcionários?"
                 }
             });
             
-            const updateBody = {
-                "description":`${description}`,
-                "name": `${departmentName}`
-            }
-        
             //request editar
-            editButton.addEventListener('click', async () => {                    
-                await updateDepartment(departmentId, updateBody)
+            deleteButton.addEventListener('click', async () => {                    
+                await deleteDepartment(departmentId)
             })
 
             closeModal()
@@ -275,7 +280,87 @@ async function handleDeleteDepartment() {
     })
 }
 
-renderSelect()
+//Abrir modal para editar a descrição do departamento
+async function handleEditUser() {
+    const buttons = document.querySelectorAll('.user__edit')
+
+    const modal = document.querySelector('.dialog__edit--user')
+    const inputs = document.querySelector('.edit__user')
+    const editButton = document.querySelector('.button__edit--user')
+    let editBody = {}
+    let count = 0
+
+    //pegando todos os botoes de edite e adicionando as funções
+    buttons.forEach(button => {
+        button.addEventListener('click', async () => {
+            modal.showModal()
+            
+            inputs.forEach(input => {
+                if(input.value.trim() === '') {
+                    count++
+                }
+    
+                editBody[input.name] = input.value
+            })
+
+            const employeeId = button.value
+
+            if(count !== 0) {
+                count =0
+                return toast(red, 'Por favor preencha todos os campos')
+            } else {
+                await updateEmployee(employeeId, editBody)
+            }
+
+            closeModal()
+        })
+
+    })
+}
+
+//abrir modal para deletar o departamento
+async function handleDeleteUser() {
+    const buttons = document.querySelectorAll('.user__trash')
+
+    const modal = document.querySelector('.dialog__delete')
+    const deleteButton = document.querySelector('.delete__button')
+    const name = document.querySelector('.delete__name')
+
+    const employees = await allEmployeesRequest()
+    
+    //pegando todos os botoes de edite e adicionando as funções
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            modal.showModal()
+            
+            const employeeId = button.value
+
+            employees.forEach(emp => {
+                if(emp.id == employeeId) {
+                    name = "Realmente deseja remover o usuário "+ emp.name +"?"
+                }
+            });
+            
+            //request editar
+            deleteButton.addEventListener('click', async () => {                    
+                await deleteDepartment(employeeId)
+            })
+
+            closeModal()
+        })
+
+    })
+}
+
+authentication()
 handleLogout()
+renderSelect()
+
 handleCreate()
+
 handleLookDepartment()
+handleEditDepartment()
+handleDeleteDepartment()
+
+handleEditUser()
+handleDeleteUser()

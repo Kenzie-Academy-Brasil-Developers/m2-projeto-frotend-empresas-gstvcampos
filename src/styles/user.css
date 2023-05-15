@@ -1,0 +1,49 @@
+.username {
+    font-size: var(--font-1);
+    font-weight: var(--font-weight-1);
+
+    margin: 16px 0 4px 31px;
+}
+
+.user__email {
+    font-size: var(--font-2);
+    font-weight: var(--font-weight-0);
+
+    margin-left: 31px;
+}
+
+.main__container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 1182px;
+    max-width: 100%;
+    margin: 24px auto;
+
+}
+
+.div__profile {
+    border: 1px solid var(--color-border);
+    width: 1180px;
+    height: 137px;
+    max-width: 100%;
+}
+
+.div__company {
+    width: 1180px;
+    height: 467px;
+    max-width: 100%;
+
+    margin-top: 28px;
+
+    border: 1px solid var(--color-border);
+    background-color: var(--color-background-1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.h1__unemployed {
+    font-size: var(--font-0);
+    font-weight: var(--font-weight-1);
+}
