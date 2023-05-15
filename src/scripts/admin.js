@@ -109,7 +109,7 @@ async function handleCreate() {
 }
 
 //Abrir modal para ver o departamento e contratar
-async function handleLookDepartment() {
+export async function handleLookDepartment() {
     const modal = document.querySelector('.dialog__look')
     const buttons = document.querySelectorAll('.dep__look')
     const departments = await allDepartmentsRequest() // todos os departamentos
@@ -133,10 +133,12 @@ async function handleLookDepartment() {
     });
 
     //pegando todos os botoes de olho e adicionando as funções
+    console.log(buttons)
     buttons.forEach(button => {
         button.addEventListener('click', () => {
             modal.showModal()
 
+           
             //rederizar os nomes no modal
             departments.forEach(depart => {
                 if(depart.id == button.value) {
@@ -205,7 +207,7 @@ async function handleLookDepartment() {
 }
 
 //Abrir modal para editar a descrição do departamento
-async function handleEditDepartment() {
+export async function handleEditDepartment() {
     const buttons = document.querySelectorAll('.dep__edit')
 
     const modal = document.querySelector('.dialog__edit--dep')
@@ -246,7 +248,7 @@ async function handleEditDepartment() {
 }
 
 //abrir modal para deletar o departamento
-async function handleDeleteDepartment() {
+export async function handleDeleteDepartment() {
     const buttons = document.querySelectorAll('.dep__delete')
 
     const modal = document.querySelector('.dialog__delete')
@@ -281,7 +283,7 @@ async function handleDeleteDepartment() {
 }
 
 //Abrir modal para editar a descrição do departamento
-async function handleEditUser() {
+export async function handleEditUser() {
     const buttons = document.querySelectorAll('.user__edit')
 
     const modal = document.querySelector('.dialog__edit--user')
@@ -319,7 +321,7 @@ async function handleEditUser() {
 }
 
 //abrir modal para deletar o departamento
-async function handleDeleteUser() {
+export async function handleDeleteUser() {
     const buttons = document.querySelectorAll('.user__trash')
 
     const modal = document.querySelector('.dialog__delete')
@@ -358,9 +360,7 @@ renderSelect()
 
 handleCreate()
 
-handleLookDepartment()
-handleEditDepartment()
-handleDeleteDepartment()
+
 
 handleEditUser()
 handleDeleteUser()

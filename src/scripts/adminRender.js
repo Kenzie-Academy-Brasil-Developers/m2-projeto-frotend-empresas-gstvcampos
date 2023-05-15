@@ -1,4 +1,5 @@
 import { readAll } from "./requests.js"
+import { handleLookDepartment, handleEditDepartment, handleDeleteDepartment} from "./admin.js"
 import { allDepartmentsRequest, allEmployeesRequest, departmentsID } from "./adminRequests.js"
 
 //renderizar todas as empresas no select
@@ -89,6 +90,10 @@ export async function renderDepartments(array) {
         deleteButton.appendChild(deleteImg)
         departments.appendChild(li)
     });
+
+    handleLookDepartment()
+    handleEditDepartment()
+    handleDeleteDepartment()
 }
 
 //renderizar usuarios
