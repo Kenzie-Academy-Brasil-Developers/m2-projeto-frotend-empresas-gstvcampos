@@ -1,13 +1,6 @@
 import { toast, red, green } from "./toast.js"
-//-------------------------
-//------ADMIN REQUEST------
-//-------------------------
+
 const baseUrl = 'http://localhost:3333'
-const token = JSON.parse(localStorage.getItem("authToken"))
-const adminHeaders = {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${token}`,
-}
 
 // -----------------------------
 // --------- EMPLOYEE ----------
@@ -17,7 +10,10 @@ const adminHeaders = {
 export async function allEmployeesRequest() {
     const employees = await fetch(`${baseUrl}/employees/readAll`, {
         method: 'GET',
-        headers: adminHeaders,
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("authToken"))}`,
+        },
     })
 
     .then(async (res) => {
@@ -36,7 +32,10 @@ export async function allEmployeesRequest() {
 export async function outOfWorkRequest() {
     const departments = await fetch(`${baseUrl}/employees/outOfWork`, {
         method: 'GET',
-        headers: adminHeaders,
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("authToken"))}`,
+        },
     })
 
     .then(async (res) => {
@@ -55,7 +54,10 @@ export async function outOfWorkRequest() {
 export async function updateEmployee(id, attBody) {
     const employee = await fetch(`${baseUrl}/employees/updateEmployee/${id}`, {
         method: 'PATCH',
-        headers: adminHeaders,
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("authToken"))}`,
+        },
         body: JSON.stringify(attBody)
     })
 
@@ -75,7 +77,10 @@ export async function updateEmployee(id, attBody) {
 export async function deleteEmployee(id) {
     const employee = await fetch(`${baseUrl}/employees/deleteEmployee/${id}`, {
         method: 'DELETE',
-        headers: adminHeaders,
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("authToken"))}`,
+        }
     })
 
     .then(async (res) => {
@@ -94,7 +99,10 @@ export async function deleteEmployee(id) {
 export async function hireEmployee(id, hireBody) {
     const employee = await fetch(`${baseUrl}/employees/hireEmployee/${id}`, {
         method: 'PATCH',
-        headers: adminHeaders,
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("authToken"))}`,
+        },
         body: JSON.stringify(hireBody)
     })
 
@@ -115,7 +123,10 @@ export async function hireEmployee(id, hireBody) {
 export async function dismissEmployee(id) {
     const employee = await fetch(`${baseUrl}/employees/dismissEmployee/${id}`, {
         method: 'PATCH',
-        headers: adminHeaders,
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("authToken"))}`,
+        }
     })
 
     .then(async (res) => {
@@ -138,7 +149,10 @@ export async function dismissEmployee(id) {
 export async function departmentsID(id) {
     const department = await fetch(`${baseUrl}/departments/readByCompany/${id}`, {
         method: 'GET',
-        headers: adminHeaders
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("authToken"))}`,
+        },
     })
 
     .then(async (res) => {
@@ -156,7 +170,10 @@ export async function departmentsID(id) {
 export async function allDepartmentsRequest() {
     const departments = await fetch(`${baseUrl}/departments/readAll`, {
         method: 'GET',
-        headers: adminHeaders,
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("authToken"))}`,
+        }
     })
 
     .then(async (res) => {
@@ -176,7 +193,10 @@ export async function allDepartmentsRequest() {
 export async function createDepartment(createBody) {
     const department = await fetch(`${baseUrl}/departments/create`, {
         method: 'POST',
-        headers: adminHeaders,
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("authToken"))}`,
+        },
         body: JSON.stringify(createBody),
     })
 
@@ -196,7 +216,10 @@ export async function createDepartment(createBody) {
 export async function updateDepartment(id, attBody) {
     const department = await fetch(`${baseUrl}/departments/update/${id}`, {
         method: 'PATCH',
-        headers: adminHeaders,
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("authToken"))}`,
+        },
         body: JSON.stringify(attBody)
     })
 
@@ -216,7 +239,10 @@ export async function updateDepartment(id, attBody) {
 export async function deleteDepartment(id) {
     const department = await fetch(`${baseUrl}/departments/delete/${id}`, {
         method: 'DELETE',
-        headers: adminHeaders,
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("authToken"))}`,
+        }
     })
 
     .then(async (res) => {

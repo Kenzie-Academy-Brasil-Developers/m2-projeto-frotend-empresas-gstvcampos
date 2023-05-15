@@ -1,7 +1,7 @@
 import { toast, red, green } from "./toast.js"
 
 import { readAll } from "./requests.js"
-import { allEmployeesRequest, allDepartmentsRequest, updateDepartment, createDepartment, deleteDepartment, outOfWorkRequest, updateEmployee, dismissEmployee } from "./adminRequests.js"
+import { allEmployeesRequest, allDepartmentsRequest, updateDepartment, createDepartment, deleteDepartment, outOfWorkRequest, updateEmployee, hireEmployee, dismissEmployee } from "./adminRequests.js"
 import { renderSelect, renderDepartments, renderUsers } from "./adminRender.js"
 
 //segurança da pagina de admin
@@ -97,11 +97,9 @@ async function handleCreate() {
                 count = 0
                 return toast(red, 'Por favor preencha todos os campos')
             } else {
-                console.log(createBody)
-
                 await createDepartment(createBody)
                 
-                //função cadastrar
+                modal.close()
             }
         })
         closeModal()
@@ -133,7 +131,6 @@ export async function handleLookDepartment() {
     });
 
     //pegando todos os botoes de olho e adicionando as funções
-    console.log(buttons)
     buttons.forEach(button => {
         button.addEventListener('click', () => {
             modal.showModal()
@@ -252,8 +249,7 @@ export async function handleDeleteDepartment() {
     const buttons = document.querySelectorAll('.dep__delete')
 
     const modal = document.querySelector('.dialog__delete')
-    const editButton = document.querySelector('.button__edit--dep')
-    const deleteButton = document.querySelector('.delete__name--dep')
+    const deleteButton = document.querySelector('.delete__department')
     const name = document.querySelector('.delete__name--dep')
 
     const departments = await allDepartmentsRequest()
@@ -267,18 +263,18 @@ export async function handleDeleteDepartment() {
 
             departments.forEach(depart => {
                 if(depart.id == departmentId) {
-                    name = "Realmente deseja remover o"+ depart.name +" e demitir seus funcionários?"
+                    name.innerText = `Realmente deseja remover o ${depart.name} e demitir seus funcionários?`
                 }
             });
             
             //request editar
             deleteButton.addEventListener('click', async () => {                    
                 await deleteDepartment(departmentId)
+                modal.close()
             })
-
-            closeModal()
         })
 
+        closeModal()
     })
 }
 
@@ -320,7 +316,7 @@ export async function handleEditUser() {
     })
 }
 
-//abrir modal para deletar o departamento
+//abrir modal para deletar o usuario
 export async function handleDeleteUser() {
     const buttons = document.querySelectorAll('.user__trash')
 
@@ -345,7 +341,7 @@ export async function handleDeleteUser() {
             
             //request editar
             deleteButton.addEventListener('click', async () => {                    
-                await deleteDepartment(employeeId)
+                await deleteEmployee(employeeId)
             })
 
             closeModal()
@@ -357,10 +353,4 @@ export async function handleDeleteUser() {
 authentication()
 handleLogout()
 renderSelect()
-
 handleCreate()
-
-
-
-handleEditUser()
-handleDeleteUser()

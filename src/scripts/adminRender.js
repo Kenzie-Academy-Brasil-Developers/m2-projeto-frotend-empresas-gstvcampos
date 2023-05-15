@@ -1,5 +1,5 @@
 import { readAll } from "./requests.js"
-import { handleLookDepartment, handleEditDepartment, handleDeleteDepartment} from "./admin.js"
+import { handleLookDepartment, handleEditDepartment, handleDeleteDepartment, handleEditUser, handleDeleteUser} from "./admin.js"
 import { allDepartmentsRequest, allEmployeesRequest, departmentsID } from "./adminRequests.js"
 
 //renderizar todas as empresas no select
@@ -25,19 +25,20 @@ export async function renderSelect() {
 
     select.addEventListener('change', async () => {
         const value = select.value
+        console.log(value)
         const filteredUsers = {}
         if (value == '') {
             renderDepartments(departments)
             renderUsers(users)
         } else {
-            renderDepartments(await departmentsID(value))
-
             users.forEach(user => {
-                if(user.company_id == value) {
-                    filteredUsers.push(user)
-                }
+                console.log(user.company_id)
+                // if(user.company_id == value) {
+                //     filteredUsers.push(user)
+                // }
             });
-
+            
+            renderDepartments(await departmentsID(value))
             renderUsers(filteredUsers)
         }
     }) 
@@ -138,5 +139,7 @@ export async function renderUsers(array) {
         editButton.appendChild(editImg)
         deleteButton.appendChild(deleteImg)
         users.appendChild(li)
-    });
+    })
+    handleEditUser()
+    handleDeleteUser()
 }

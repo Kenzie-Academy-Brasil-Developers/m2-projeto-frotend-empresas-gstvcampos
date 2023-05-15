@@ -411,7 +411,7 @@ li > button {
     line-height: 42px;
 }
 
-.delete__button--dep {
+.delete__department {
     background-color: var(--orange);
     font-size: var(--font-3);
     font-weight: var(--font-weight-1);
