@@ -1,7 +1,7 @@
 import { toast, red, green } from "./toast.js"
 
 import { readAll } from "./requests.js"
-import { allEmployeesRequest, allDepartmentsRequest } from "./adminRequests.js"
+import { allEmployeesRequest, allDepartmentsRequest, updateDepartment, createDepartment } from "./adminRequests.js"
 import { renderSelect, renderDepartments, renderUsers } from "./adminRender.js"
 
 // sair da pagina e limpar localStorage
@@ -91,52 +91,191 @@ async function handleCreate() {
                 console.log(createBody)
 
                 await createDepartment(createBody)
+                closeModal()
                 //função cadastrar
             }
         })
-
-        closeModal()
     })
 }
 
 //Abrir modal para ver o departamento e contratar
-function handleLook() {
+async function handleLookDepartment() {
     const modal = document.querySelector('.dialog__look')
     const buttons = document.querySelectorAll('.dep__look')
+    const departments = await allDepartmentsRequest() // todos os departamentos
+    const companies = await readAll() // todas as empresas, verificar com id
+    const allEmployees = await allEmployeesRequest() // listar todos
+    const employeesOutWorK = await outOfWorkRequest() // todos desempregados
+    const select = document.querySelector('.select__user')
+    const lista = document.querySelector('.depart__employees')
+    const hireButton = document.querySelector('.hire__button')
+    const departmentName = document.querySelector('.depart__name')
+    const departmentDescription = document.querySelector('.depart__description')
+    const Departmentcompany = document.querySelector('.owned__company')
 
-    // const users = ///função pegar array de usuarios (outOfWork)
-    //const select = document.querySelector('.select__user')
+    //renderizar o select dos usuarios desempregados
+    employeesOutWorK.forEach(employees => {
+        const option = document.createElement('option')
+        option.innerText = employees.name
+        option.value = employees.id
 
-    console.log('aaaa')
+        select.appendChild(option)
+    });
 
+    //pegando todos os botoes de olho e adicionando as funções
     buttons.forEach(button => {
         button.addEventListener('click', () => {
             modal.showModal()
 
-            //renderizar os usuarios 
-            // users.forEach(user => {
-            //     const option = document.createElement('option')
-            //     option.value = element.user.id
-            //     option.innerText = user.name
+            //rederizar os nomes no modal
+            departments.forEach(depart => {
+                if(depart.id == button.value) {
+                    departmentName.innerText = depart.name
+                    departmentDescription.innerText = depart.description
+                }
+                companies.forEach(compa => {
+                    if(compa.id == depart.company_id) {
+                        Departmentcompany.innerText = compa.name
+                    }
+                })
+            })
 
-            //     select.appendChild(option)
-            // })
+            //renderizar todos os usuarios daquele setor
+            allEmployees.forEach(element => {
+                if(element.department_id == button.value) {
+                    const li = document.createElement('li')
+                    const name = document.createElement('p')
+                    const company = document.createElement('p')
+                    const dismissButton = document.createElement('button')
 
+                    name.classList.add('user__name')
+                    company.classList.add('campany__name')
+                    dismissButton.classList.add('dismiss__button')
+                    
+                    name.innerText = element.name
+                    dismissButton.value = element.id
+                    dismissButton.innerText = 'Desligar'
 
+                    companies.forEach(comp => {
+                        if(element.company_id == comp.id) {
+                            company.innerText = comp.name
+                        }
+                    })
 
+                    lista.appendChild(li)
+                    li.append(name, company, dismissButton)
+
+                    //função demitir daquele departamente
+                    dismissButton.addEventListener('click', async () => {
+                        const employedId = dismissButton.value
+                        await dismissEmployee(employedId)
+                    })
+                }
+            })
+
+            const hireBody = {
+                "department_id":`${button.value}`
+            }
+        
+            //request contratar para aquele setor
+            hireButton.addEventListener('click', async () => {
+                const idEmployed = select.value
+                    
+                if (idEmployed == '') {
+                    return toast(red, 'Por favor selecione alguma opção')
+                } else {
+                    await hireEmployee(idEmployed, hireBody)
+                }
+            })
 
             closeModal()
-        });
+        })
 
     })
 }
 
+//Abrir modal para editar a descrição do departamento
+async function handleEditDepartment() {
+    const buttons = document.querySelectorAll('.dep__edit')
 
+    const modal = document.querySelector('.dialog__edit--dep')
+    const input = document.querySelector('.edit__department')
+    const editButton = document.querySelector('.button__edit--dep')
 
-handleLogout()
-//renderizar opções no select e renderizar departamentos e usuarios na tela
+    const departments = await allDepartmentsRequest()
+    
+    //pegando todos os botoes de edite e adicionando as funções
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            modal.showModal()
+            
+            const departmentId = button.value
+            const description = input.value
+            let departmentName = ''
+
+            departments.forEach(depart => {
+                if(depart.id == departmentId) {
+                    departmentName = depart.name
+                }
+            });
+            
+            const updateBody = {
+                "description":`${description}`,
+                "name": `${departmentName}`
+            }
+        
+            //request editar
+            editButton.addEventListener('click', async () => {                    
+                await updateDepartment(departmentId, updateBody)
+            })
+
+            closeModal()
+        })
+
+    })
+}
+
+async function handleDeleteDepartment() {
+    const buttons = document.querySelectorAll('.dep__delete')
+
+    const modal = document.querySelector('.dialog__delete')
+    const editButton = document.querySelector('.button__edit--dep')
+    const deleteButton = document.querySelector('.delete__name--dep')
+
+    const departments = await allDepartmentsRequest()
+    
+    //pegando todos os botoes de edite e adicionando as funções
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            modal.showModal()
+            
+            const departmentId = button.value
+            const description = input.value
+            let departmentName = ''
+
+            departments.forEach(depart => {
+                if(depart.id == departmentId) {
+                    departmentName = depart.name
+                }
+            });
+            
+            const updateBody = {
+                "description":`${description}`,
+                "name": `${departmentName}`
+            }
+        
+            //request editar
+            editButton.addEventListener('click', async () => {                    
+                await updateDepartment(departmentId, updateBody)
+            })
+
+            closeModal()
+        })
+
+    })
+}
+
 renderSelect()
-
+handleLogout()
 handleCreate()
-handleLook()
-
+handleLookDepartment()

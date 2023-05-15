@@ -100,10 +100,11 @@ export async function hireEmployee(id, hireBody) {
 
     .then(async (res) => {
         if(res.ok) {
-            return res.json()
+            const response = await res.json()
+            return toast(green, response.message)
         } else {
             const response = await res.json()
-            throw new Error(`${response.message}`)
+            return toast(red, response.message)
         }
     })
 
@@ -212,7 +213,7 @@ export async function updateDepartment(id, attBody) {
 }
 
 //DELETE Rota responsável por deletar um departamento
-export async function deleteUser(id) {
+export async function deleteDepartment(id) {
     const department = await fetch(`${baseUrl}/departments/delete/${id}`, {
         method: 'DELETE',
         headers: adminHeaders,

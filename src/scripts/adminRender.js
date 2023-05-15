@@ -70,7 +70,7 @@ export async function renderDepartments(array) {
             if(company.id == element.company_id) {
                 name.innerText = company.name
             }
-        });
+        })
 
         lookButton.value = element.id
         editButton.value = element.id
