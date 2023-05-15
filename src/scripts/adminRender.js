@@ -26,16 +26,15 @@ export async function renderSelect() {
     select.addEventListener('change', async () => {
         const value = select.value
         console.log(value)
-        const filteredUsers = {}
+        const filteredUsers = []
         if (value == '') {
             renderDepartments(departments)
             renderUsers(users)
         } else {
             users.forEach(user => {
-                console.log(user.company_id)
-                // if(user.company_id == value) {
-                //     filteredUsers.push(user)
-                // }
+                if(user.company_id == value) {
+                    filteredUsers.push(user)
+                }
             });
             
             renderDepartments(await departmentsID(value))
