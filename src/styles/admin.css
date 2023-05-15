@@ -118,3 +118,311 @@ li > button {
     top: 102px;
     right: 0px;
 }
+
+/* -------------------------- */
+/* --------- dialog --------- */
+/* -------------------------- */
+
+.dialog__look {
+    height: 590px;
+    width: 857px;
+    border: none;
+}
+
+.look__div > select {
+    margin-top: 7px;
+    margin-left: 43px;
+    margin-bottom: 16px;
+    
+    width: 600px;
+    padding: 17px;
+
+    border: 1px solid var(--color-border);
+    font-size: var(--font-3);
+    color: var(--color-font);
+}
+
+.hire__button {
+    background-color: var(--grenn);
+    font-size: var(--font-3);
+    font-weight: var(--font-weight-1);
+    color: var(--color-white);
+    border: 1px solid var(--grenn);
+
+    height: 52px;
+    width: 190px;
+    padding: 14px 43px;
+}
+
+.look__div > ul {
+    box-shadow: none;
+    margin-left: 43px;
+    
+    width: 795px;
+    height: 290px;
+}
+
+.look__div > ul > li {
+    height: 196px;
+    width: 306px;
+
+    margin-top: 43px;
+    margin-left: 29px;
+}
+
+.depart__name {
+    margin-top: 39px;
+    margin-left: 43px;
+    margin-bottom: 31px;
+
+    font-size: var(--font-0);
+    font-weight: var(--font-weight-1);
+}
+
+.depart__description {
+    margin-left: 43px;
+
+    font-size: var(--font-2);
+    font-weight: var(--font-weight-1);
+}
+
+.owned__company {
+    margin-left: 43px;
+    margin-top: 11px;
+    margin-bottom: 18px;
+
+    font-size: var(--font-3);
+    font-weight: var(--font-weight-0);
+}
+
+.user__name {
+    font-size: var(--font-2);
+    font-weight: var(--font-weight-1);
+
+    margin-top: 18px;
+    margin-left: 103px;
+}
+
+.campany__name {
+    font-size: var(--font-3);
+    font-weight: var(--font-weight-0);
+
+    margin-top: 11px;
+    margin-left: 85px;
+}
+
+.dismiss__button {
+    background-color: var(--color-white);
+    border: 1px solid var(--orange);
+    color: var(--orange);
+
+    font-size: var(--font-3);
+    font-weight: var(--font-weight-1);
+
+    padding: 13px 42.23px;
+    height: 48px;
+    width: 255px;
+
+    margin-top: 52px;
+    margin-left: 24px;
+}
+
+.close__button {
+    background-color: var(--color-white);
+    border: none;
+
+    position: absolute;
+    right: 31.68px;
+    top: 31.68px;
+}
+
+.dialog__edit--user {
+    height: 359px;
+    width: 506px;
+    border: none;
+}
+
+.div__edit--user > input {
+    border: 1px solid var(--color-border);
+    font-size: var(--font-3);
+
+    margin-top: 16px;
+    margin-left: 43px;
+    
+    width: 390px;
+    padding: 17px;
+}
+
+.name__edit--user {
+    font-size: var(--font-0);
+    font-weight: var(--font-weight-1);
+
+    margin: 39px 0 4px 43px;
+}
+
+.button__edit--user {
+    background-color: var(--grenn);
+    font-size: var(--font-3);
+    font-weight: var(--font-weight-1);
+    color: var(--color-white);
+    border: 1px solid var(--grenn);
+
+    margin-top: 36px;
+    margin-left: 43px;
+
+    height: 48px;
+    width: 425px;
+    padding: 11px 82px;
+}
+
+.dialog__delete {
+    height: 250px;
+    width: 700px;
+    border: none;
+}
+
+.delete__name {
+    font-size: var(--font-1);
+    font-weight: var(--font-weight-1);
+
+    margin: 40px 120px;
+}
+
+.delete__button {
+    background-color: var(--orange);
+    font-size: var(--font-3);
+    font-weight: var(--font-weight-1);
+    color: var(--color-white);
+    border: 1px solid var(--orange);
+
+    margin-top: 20px;
+    margin-left: 140px;
+
+    height: 48px;
+    width: 422px;
+    padding: 11px 82px;
+}
+
+.dialog__create {
+    height: 390px;
+    width: 506px;
+    border: none;
+}
+
+.div__create {
+    display: flex;
+    flex-direction: column;
+}
+
+.div__create > h2 {
+    margin-top: 39px;
+    margin-left: 43px;
+    margin-bottom: 20px;
+
+    font-size: var(--font-0);
+    font-weight: var(--font-weight-1);
+}
+
+.div__create > input {
+    border: 1px solid var(--color-border);
+    font-size: var(--font-3);
+
+    margin-left: 43px;
+    margin-bottom: 13px;
+
+    width: 390px;
+    padding: 17px;
+}
+
+.div__create > select {
+    border: 1px solid var(--color-border);
+    color: var(--color-font);
+    font-size: var(--font-3);
+
+    margin-left: 43px;
+    margin-bottom: 14px;
+
+    width: 426px;
+    padding: 17px;
+}
+
+.create__button {
+    background-color: var(--grenn);
+    font-size: var(--font-3);
+    font-weight: var(--font-weight-1);
+    color: var(--color-white);
+    border: 1px solid var(--grenn);
+
+    margin-left: 43px;
+
+    height: 48px;
+    width: 425px;
+    padding: 11px 82px;
+}
+
+.dialog__edit--dep {
+    height: 330px;
+    width: 506px;
+    border: none;
+}
+
+.div__edit--dep > h2 {
+    margin-top: 39px;
+    margin-left: 43px;
+    margin-bottom: 20px;
+
+    font-size: var(--font-0);
+    font-weight: var(--font-weight-1);
+}
+
+.div__edit--dep > input {
+    margin-left: 43px;
+    border: 1px solid var(--color-border);
+
+    width: 390px;
+    height: 113px;
+
+    padding: 17px;
+    font-size: var(--font-3);
+    font-weight: var(--font-weight-0);
+}
+
+.button__edit--dep {
+    background-color: var(--grenn);
+    font-size: var(--font-3);
+    font-weight: var(--font-weight-1);
+    color: var(--color-white);
+    border: 1px solid var(--grenn);
+
+    margin-top: 14px;
+    margin-left: 43px;
+
+    height: 48px;
+    width: 425px;
+    padding: 11px 82px;
+}
+
+.delete__name--dep {
+
+    font-weight: var(--font-weight-1);
+
+    margin-top: 60px;
+    margin: 0px 90px;
+    line-height: 42px;
+}
+
+.delete__button--dep {
+    background-color: var(--orange);
+    font-size: var(--font-3);
+    font-weight: var(--font-weight-1);
+    color: var(--color-white);
+    border: 1px solid var(--orange);
+
+
+    margin-left: 140px;
+    margin-top: 38px;
+
+    height: 48px;
+    width: 422px;
+    padding: 11px 82px;
+}

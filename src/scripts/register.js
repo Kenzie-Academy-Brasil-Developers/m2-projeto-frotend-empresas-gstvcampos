@@ -1,5 +1,5 @@
-import { toast } from "./toast.js"
-import { red, registerRequest } from './requests.js'
+import { toast, red , green } from "./toast.js"
+import { registerRequest } from './requests.js'
 
 // mudar de pagina
 function handlePage() {
@@ -9,7 +9,6 @@ function handlePage() {
     HomeButtons.forEach((button) => {
         button.addEventListener('click', () => {
 
-            console.log('foi')
             location.replace('../../index.html')
         });
     });

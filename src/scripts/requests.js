@@ -1,12 +1,9 @@
-import { toast } from "./toast.js"
+import { toast, red, green } from "./toast.js"
 
 const baseUrl = 'http://localhost:3333'
 const requestHeaders = {
     'Content-Type': 'application/json',
 }
-
-export const red = '#df1545'
-export const green = '#168821'
 
 //GET buscar todas as categorias das empresas cadastradas
 export async function categoriesRequest() {
@@ -74,8 +71,7 @@ export async function loginRequest(loginBody) {
             const responseJson = await res.json()
             const {authToken, isAdm} = responseJson
 
-            localStorage.setItem('@doit:authToken', JSON.stringify(authToken))
-            localStorage.setItem('@doit:isAdm', JSON.stringify(isAdm))
+            localStorage.setItem('authToken', JSON.stringify(authToken))
 
             toast(green, 'Login realizado com sucesso')
 
@@ -122,72 +118,5 @@ export async function registerRequest(registerBody) {
     })
 
     return register
-}
-
-//-------------------------
-//------ADMIN REQUEST------
-//-------------------------
-
-const token = localStorage.getItem('@doit:authToken') || ""
-const adminHeaders = {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
-}
-
-//GET buscar todos os departamentos
-export async function allDepartmentsRequest() {
-    const departments = fetch(`${baseUrl}/departments/readAll`, {
-        method: 'GET',
-        headers: adminHeaders,
-    })
-
-    .then(async (res) => {
-        if(res.ok) {
-            return res.json()
-        } else {
-            const response = res.json
-            console.log(response)
-        }
-    })
-
-    return departments
-}
-
-//GET departamentos pelo ID
-export async function departmentsID(id) {
-    const department = fetch(`${baseUrl}/departments/readByCompany/${id}`, {
-        method: 'GET',
-        headers: adminHeaders
-    })
-
-    .then(async (res) => {
-        if(res.ok) {
-            return res.json()
-        } else {
-            const response = res.json
-            console.log(response)
-        }
-    })
-
-    return department
-}
-
-//GET buscar todos os empregados
-export async function allEmployeesRequest() {
-    const employees = fetch(`${baseUrl}/employees/readAll`, {
-        method: 'GET',
-        headers: adminHeaders
-    })
-
-    .then(async (res) => {
-        if(res.ok) {
-            return res.json()
-        } else {
-            const response = res.json
-            console.log(response)
-        }
-    })
-
-    return employees
 }
 

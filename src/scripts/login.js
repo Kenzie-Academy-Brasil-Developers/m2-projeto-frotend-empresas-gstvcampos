@@ -1,5 +1,5 @@
-import { toast } from "./toast.js" 
-import { loginRequest, red } from './requests.js'
+import { toast, red, green } from "./toast.js" 
+import { loginRequest } from './requests.js'
 
 // mudar de pagina
 function handlePage() {

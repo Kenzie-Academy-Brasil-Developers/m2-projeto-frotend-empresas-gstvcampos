@@ -45,23 +45,6 @@
                     <button class="dep__edit"><img src="../assets/edit.svg" alt=""></button>
                     <button class="dep__delete"><img src="../assets/trash.svg" alt=""></button>
                 </li>
-                <li class="li__dep">
-                    <h3>DeparmantoNome</h3>
-                    <p>Departamento descrição</p>
-                    <p>NomeCompanhia</p>
-                    <button class="dep__look"><img src="../assets/eyes.svg" alt=""></button>
-                    <button class="dep__edit"><img src="../assets/edit.svg" alt=""></button>
-                    <button class="dep__delete"><img src="../assets/trash.svg" alt=""></button>
-                </li>
-                <li class="li__dep">
-                    <h3>DeparmantoNome</h3>
-                    <p>Departamento descrição</p>
-                    <p>NomeCompanhia</p>
-                    <button class="dep__look"><img src="../assets/eyes.svg" alt=""></button>
-                    <button class="dep__edit"><img src="../assets/edit.svg" alt=""></button>
-                    <button class="dep__delete"><img src="../assets/trash.svg" alt=""></button>
-                </li>
-
             </ul>
         </section>
             
@@ -74,21 +57,95 @@
                     <button class="user__edit"><img src="../assets/edit.svg" alt=""></button>
                     <button class="user__trash"><img src="../assets/trash.svg" alt=""></button>
                 </li>
-                <li class="li__user">
-                    <h3>Username</h3>
-                    <p>NomeCompanhia</p>
-                    <button class="user__edit"><img src="../assets/edit.svg" alt=""></button>
-                    <button class="user__trash"><img src="../assets/trash.svg" alt=""></button>
-                </li>
-                <li class="li__user">
-                    <h3>Username</h3>
-                    <p>NomeCompanhia</p>
-                    <button class="user__edit"><img src="../assets/edit.svg" alt=""></button>
-                    <button class="user__trash"><img src="../assets/trash.svg" alt=""></button>
-                </li>
             </ul>
         </section>
+
+        <dialog class="dialog__create">
+            <div class="div__create">
+                <button class="close__button"><img src="../assets/close.svg" alt=""></button>
+                
+                <h2>Criar Departamento</h2>
+                <input class="create__input" type="text" name="name" placeholder="Nome do departamento">
+                <input class="create__input" type="text" name="description" placeholder="Descrição">
+                <select class="select__company" name="company_id">
+                    <option value="">Selecionar empresa</option>
+                </select>
+
+                <button class="create__button">Criar</button>
+            </div>
+        </dialog>
+
+        <dialog class="dialog__look">
+            <div class="look__div">
+                <button class="close__button"><img src="../assets/close.svg" alt=""></button>
+                <h2 class="depart__name">Nome do departamento</h2>
+                <p class="depart__description">Descrição do departamento</p>
+                <p class="owned__company">Empresa pertencente</p>
+                <select class="select__user">
+                    <option value="">Selecionar usuários</option>
+                </select>
+                <button class="hire__button">Contratar</button>
+                <ul>
+                    <li>
+                        <p class="user__name">Username</p>
+                        <p class="campany__name">Company Name</p>
+                        <button class="dismiss__button">Desligar</button>
+                    </li>
+                </ul>
+            </div>
+        </dialog>
+
+        <dialog class="dialog__edit--user">
+            <div class="div__edit--user">
+                <button class="close__button"><img src="../assets/close.svg" alt=""></button>
+                
+                <h2 class="name__edit--user">Editar Usuário</h2>
+                <input type="text" placeholder="Nome">
+                <input type="email" name="" id="" placeholder="E-mail">
+            
+                <button class="button__edit--user">Salvar</button>
+            </div>
+        </dialog>
+
+        <dialog class="dialog__delete">
+            <div class="delete__div">
+                <button class="close__button"><img src="../assets/close.svg" alt=""></button>
+                
+                <h2 class="delete__name">Realmente deseja remover o usuário NOME?</h2>
+
+                <button class="delete__button">Remover</button>
+            </div>
+        </dialog>
+
+
+        <dialog class="dialog__edit--dep">
+            <div class="div__edit--dep">
+                <button class="close__button"><img src="../assets/close.svg" alt=""></button>
+                
+                <h2>Editar Departamento</h2>
+
+                <input type="text" placeholder="Valores anteriores da descrição">
+            
+                <button class="button__edit--dep">Salvar</button>
+            </div>
+        </dialog>
+
+        <dialog class="dialog__delete">
+            <div class="div__delete--dep">
+                <button class="close__button"><img src="../assets/close.svg" alt=""></button>
+                
+                <h2 class="delete__name--dep">Realmente deseja remover o Departamento NOME demitir seus funcionários?</h2>
+
+                <button class="delete__button--dep">Remover</button>
+            </div>
+        </dialog>
+
+
     </main>
+        <!-- Código do TOAST -->
+    <div class="toast__container hidden">
+    <p>Login realizado com sucesso</p>
+    </div>
 
 </body>
 </html>
