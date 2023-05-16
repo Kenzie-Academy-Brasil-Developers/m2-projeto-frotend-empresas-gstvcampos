@@ -98,7 +98,7 @@ export async function loginRequest(loginBody) {
 export async function registerRequest(registerBody) {
     const register = await fetch(`${baseUrl}/employees/create`, {
         method: 'POST',
-        headers: adminHeaders,
+        headers: requestHeaders,
         body: JSON.stringify(registerBody)
     })
 

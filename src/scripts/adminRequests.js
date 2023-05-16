@@ -63,10 +63,11 @@ export async function updateEmployee(id, attBody) {
 
     .then(async (res) => {
         if(res.ok) {
-            return res.json()
+            const response = await res.json()
+            return toast(green, response.message)
         } else {
             const response = await res.json()
-            throw new Error(`${response.message}`)
+            return toast(red, response.message)
         }
     })
 
@@ -90,6 +91,9 @@ export async function deleteEmployee(id) {
             const response = await res.json()
             throw new Error(`${response.message}`)
         }
+    })
+    .catch((error) => {
+        console.log(error.message)
     })
 
     return employee
@@ -131,10 +135,11 @@ export async function dismissEmployee(id) {
 
     .then(async (res) => {
         if(res.ok) {
-            return res.json()
+            const response = await res.json()
+            return toast(green, response.message)
         } else {
             const response = await res.json()
-            throw new Error(`${response.message}`)
+            return toast(red, response.message)
         }
     })
 

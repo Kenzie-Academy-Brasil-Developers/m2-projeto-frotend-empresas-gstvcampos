@@ -1,6 +1,6 @@
 import { readAll } from "./requests.js"
-import { handleLookDepartment, handleEditDepartment, handleDeleteDepartment, handleEditUser, handleDeleteUser} from "./admin.js"
-import { allDepartmentsRequest, allEmployeesRequest, departmentsID } from "./adminRequests.js"
+import { handleLookDepartment, handleEditDepartment, handleDeleteDepartment, handleEditUser, handleDeleteUser } from "./admin.js"
+import { allDepartmentsRequest, allEmployeesRequest, departmentsID, outOfWorkRequest, dismissEmployee} from "./adminRequests.js"
 
 //renderizar todas as empresas no select
 export async function renderSelect() {
@@ -32,16 +32,15 @@ export async function renderSelect() {
             renderUsers(users)
         } else {
             users.forEach(user => {
-                console.log(user)
-                if(user.company_id == value) {
+                if (user.company_id == value) {
                     filteredUsers.push(user)
                 }
-            });
-            
+            })
+
             renderDepartments(await departmentsID(value))
             renderUsers(filteredUsers)
         }
-    }) 
+    })
 }
 
 //renderizar departamentos
@@ -68,11 +67,9 @@ export async function renderDepartments(array) {
         editButton.classList.add('dep__edit')
         deleteButton.classList.add('dep__delete')
 
-        campanies.forEach(company => {
-            if(company.id == element.company_id) {
-                name.innerText = company.name
-            }
-        })
+        //colocar o nome da empresa
+        const comanyName = campanies.find(company => company.id == element.company_id)
+        name.innerText = comanyName.name
 
         lookButton.value = element.id
         editButton.value = element.id
@@ -125,22 +122,17 @@ export async function renderUsers(array) {
         deleteButton.value = element.id
         editButton.value = element.id
         name.innerText = element.name
-        
+
         const id = element.company_id
 
         //colocar o nome da empresa ou sem empresa
-        campanies.forEach(companyy => {
-            // console.log(companyy.id)
-            // console.log(id)
-            // console.log(companyy.name)
-            // console.log('-----')
-            if(companyy.id == id) {
-                company.innerText = companyy.name
-            } else {
-                company.innerText = 'Sem empresa'
-            }
-        })
-        
+        const comanyName = campanies.find(company => company.id == id)
+        if (comanyName) {
+            company.innerText = comanyName.name
+        } else {
+            company.innerText = 'Sem empresa'
+        }
+
         li.append(name, company, editButton, deleteButton)
         editButton.appendChild(editImg)
         deleteButton.appendChild(deleteImg)
@@ -148,4 +140,69 @@ export async function renderUsers(array) {
     })
     handleEditUser()
     handleDeleteUser()
+}
+
+//renderizar todos os usuarios daquele departamento
+export async function renderEmployes(departmentId) {
+    const allEmployees = await allEmployeesRequest()
+    const companies = await readAll()
+    const lista = document.querySelector('.depart__employees')
+    lista.innerHTML = ''
+
+    allEmployees.forEach(employe => {
+        if (employe.department_id == departmentId) {
+            const li = document.createElement('li')
+            const name = document.createElement('p')
+            const company = document.createElement('p')
+            const dismissButton = document.createElement('button')
+
+            name.classList.add('user__name')
+            company.classList.add('campany__name')
+            dismissButton.classList.add('dismiss__button')
+
+            name.innerText = employe.name
+            dismissButton.value = employe.id
+            dismissButton.innerText = 'Desligar'
+
+            //colocar o nome da empresa
+            const companyObject = companies.find(company => company.id == employe.company_id)
+            company.innerText = companyObject.name
+
+            lista.appendChild(li)
+            li.append(name, company, dismissButton)
+        }
+    })
+
+    const dismissButtons = document.querySelectorAll('.dismiss__button')
+    //requeste para demitir aquele funcionario
+    dismissButtons.forEach(button => {
+        button.addEventListener('click', async () => {
+            const employeId = button.value
+
+            await dismissEmployee(employeId)
+            await renderEmployes(departmentId)
+            await renderSelectOutWork()
+            renderSelect()
+        })
+    })
+}
+
+export async function renderSelectOutWork() {
+    const select = document.querySelector('.select__user')
+    const employeesOutWorK = await outOfWorkRequest()
+    const optionOne = document.createElement('option')
+    optionOne.innerText = 'Selecionar usuários'
+    optionOne.value = ''
+
+    select.innerHTML = ''
+    select.appendChild(optionOne)
+
+    //renderizar o select dos usuarios desempregados
+    employeesOutWorK.forEach(employe => {
+        const option = document.createElement('option')
+        option.innerText = employe.name
+        option.value = employe.id
+
+        select.appendChild(option)
+    })
 }

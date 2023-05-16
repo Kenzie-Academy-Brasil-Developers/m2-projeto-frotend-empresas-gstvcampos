@@ -1,18 +1,18 @@
 import { toast, red, green } from "./toast.js"
 
 import { readAll } from "./requests.js"
-import { allEmployeesRequest, allDepartmentsRequest, updateDepartment, createDepartment, deleteDepartment, outOfWorkRequest, updateEmployee, hireEmployee, dismissEmployee, deleteEmployee } from "./adminRequests.js"
-import { renderSelect, renderDepartments, renderUsers } from "./adminRender.js"
+import { allEmployeesRequest, allDepartmentsRequest, updateDepartment, createDepartment, deleteDepartment, updateEmployee, hireEmployee, deleteEmployee } from "./adminRequests.js"
+import { renderSelect, renderEmployes, renderSelectOutWork } from "./adminRender.js"
 
 //segurança da pagina de admin
 function authentication() {
     const token = localStorage.getItem("authToken");
-  
+
     if (!token) {
-      location.replace("../../index.html");
+        location.replace("../../index.html");
     }
 }
-  
+
 // sair da pagina e limpar localStorage
 function handleLogout() {
     const logout = document.querySelector('.logout')
@@ -63,19 +63,6 @@ async function handleCreate() {
         select.appendChild(option)
     })
 
-    let createBody = {}
-    let count = 0
-
-    select.addEventListener('change', () => {
-        const value = select.value
-        
-        if (value == '') {
-            count++
-        } else {
-            createBody[select.name] = value
-        }
-    })
-
     button.addEventListener('click', () => {
         modal.showModal()
 
@@ -83,15 +70,23 @@ async function handleCreate() {
         const Createbutton = document.querySelector('.create__button')
 
         Createbutton.addEventListener('click', async () => {
+            let createBody = {}
+            let count = 0
 
-
+            //pegando o valor os inputs
             inputs.forEach(input => {
                 if (input.value.trim() === '') {
                     count++
                 }
-
                 createBody[input.name] = input.value
-            });
+            })
+
+            //pegando o valor do select
+            const value = select.value
+            if (value === '') {
+                count++
+            }
+            createBody[select.name] = value
 
             if (count !== 0) {
                 count = 0
@@ -113,88 +108,48 @@ export async function handleLookDepartment() {
     const buttons = document.querySelectorAll('.dep__look')
     const departments = await allDepartmentsRequest() // todos os departamentos
     const companies = await readAll() // todas as empresas, verificar com id
-    const allEmployees = await allEmployeesRequest() // listar todos
-    const employeesOutWorK = await outOfWorkRequest() // todos desempregados
-    const select = document.querySelector('.select__user')
-    const lista = document.querySelector('.depart__employees')
-    const hireButton = document.querySelector('.hire__button')
     const departmentName = document.querySelector('.depart__name')
     const departmentDescription = document.querySelector('.depart__description')
-    const Departmentcompany = document.querySelector('.owned__company')
-
-    //renderizar o select dos usuarios desempregados
-    employeesOutWorK.forEach(employees => {
-        const option = document.createElement('option')
-        option.innerText = employees.name
-        option.value = employees.id
-
-        select.appendChild(option)
-    });
+    const DepartmentCompany = document.querySelector('.owned__company')
+    const select = document.querySelector('.select__user')
+    const hireButton = document.querySelector('.hire__button')
+    const opcoes = document.querySelectorAll('.select__user > option ')
 
     //pegando todos os botoes de olho e adicionando as funções
     buttons.forEach(button => {
-        button.addEventListener('click', () => {
+        button.addEventListener('click', async () => {
             modal.showModal()
+            await renderSelectOutWork()
 
-           
-            //rederizar os nomes no modal
-            departments.forEach(depart => {
-                if(depart.id == button.value) {
-                    departmentName.innerText = depart.name
-                    departmentDescription.innerText = depart.description
-                }
-                companies.forEach(compa => {
-                    if(compa.id == depart.company_id) {
-                        Departmentcompany.innerText = compa.name
-                    }
-                })
-            })
+            const departmentId = button.value
 
-            //renderizar todos os usuarios daquele setor
-            allEmployees.forEach(element => {
-                if(element.department_id == button.value) {
-                    const li = document.createElement('li')
-                    const name = document.createElement('p')
-                    const company = document.createElement('p')
-                    const dismissButton = document.createElement('button')
+            //renderizar o nome do departamento no modal
+            const departmentObject = departments.find(department => department.id == departmentId)
+            departmentName.innerText = departmentObject.name
+            departmentDescription.innerText = departmentObject.description
 
-                    name.classList.add('user__name')
-                    company.classList.add('campany__name')
-                    dismissButton.classList.add('dismiss__button')
-                    
-                    name.innerText = element.name
-                    dismissButton.value = element.id
-                    dismissButton.innerText = 'Desligar'
+            //renderizar nome da empresa
+            const companyID = departmentObject.company_id
+            const companyObject = companies.find(company => company.id == companyID)
+            DepartmentCompany.innerText = companyObject.name
 
-                    companies.forEach(comp => {
-                        if(element.company_id == comp.id) {
-                            company.innerText = comp.name
-                        }
-                    })
+            //renderizar os funcionarios daqueles departamento
+            await renderEmployes(departmentId)
 
-                    lista.appendChild(li)
-                    li.append(name, company, dismissButton)
-
-                    //função demitir daquele departamente
-                    dismissButton.addEventListener('click', async () => {
-                        const employedId = dismissButton.value
-                        await dismissEmployee(employedId)
-                    })
-                }
-            })
-
-            const hireBody = {
-                "department_id":`${button.value}`
-            }
-        
             //request contratar para aquele setor
             hireButton.addEventListener('click', async () => {
+                const hireBody = {
+                    "department_id": `${departmentId}`
+                }
                 const idEmployed = select.value
-                    
+
                 if (idEmployed == '') {
                     return toast(red, 'Por favor selecione alguma opção')
                 } else {
                     await hireEmployee(idEmployed, hireBody)
+                    await renderEmployes(departmentId)
+                    await renderSelectOutWork()
+                    renderSelect()
                 }
             })
 
@@ -213,38 +168,33 @@ export async function handleEditDepartment() {
     const editButton = document.querySelector('.button__edit--dep')
 
     const departments = await allDepartmentsRequest()
-    
+
     //pegando todos os botoes de edite e adicionando as funções
     buttons.forEach(button => {
         button.addEventListener('click', () => {
             modal.showModal()
-            
+
             const departmentId = button.value
 
             //request editar
             editButton.addEventListener('click', async () => {
 
-                let description = input.value
+                const description = input.value
 
-                if(description.trim() === '') {
+                if (description.trim() === '') {
                     return toast(red, 'Por favor preencha todos os campos')
                 }
 
-                let departmentName = ''
                 //pegar o nome do departamento
-                departments.forEach(depart => {
-                    if(depart.id == departmentId) {
-                        departmentName = depart.name
-                    }
-                })
+                const departmentObject = departments.find(department => departmentId == department.id)
+                const departmentName = departmentObject.name
 
                 //body do edit
                 const updateBody = {
-                    "description":`${description}`,
+                    "description": `${description}`,
                     "name": `${departmentName}`
                 }
 
-                description = ''                
                 await updateDepartment(departmentId, updateBody)
                 modal.close()
                 toast(green, 'Departamento editado')
@@ -266,23 +216,23 @@ export async function handleDeleteDepartment() {
     const deleteButton = document.querySelector('.button__delete--department')
 
     const departments = await allDepartmentsRequest()
-    
+
     //pegando todos os botoes de edite e adicionando as funções
     buttons.forEach(button => {
         button.addEventListener('click', () => {
             modal.showModal()
-            
+
             const departmentId = button.value
 
             //renderizar o nome do departamento
             departments.forEach(depart => {
-                if(depart.id == departmentId) {
+                if (depart.id == departmentId) {
                     name.innerText = `Realmente deseja remover o ${depart.name} e demitir seus funcionários?`
                 }
             });
-            
+
             //request editar
-            deleteButton.addEventListener('click', async () => {                    
+            deleteButton.addEventListener('click', async () => {
                 await deleteDepartment(departmentId)
                 modal.close()
                 toast(green, 'Departamento deletado')
@@ -308,27 +258,26 @@ export async function handleEditUser() {
     buttons.forEach(button => {
         button.addEventListener('click', () => {
             modal.showModal()
-            
+
             const employeeId = button.value
 
             editButton.addEventListener('click', async () => {
 
                 inputs.forEach(input => {
-                    if(input.value.trim() === '') {
+                    if (input.value.trim() === '') {
                         count++
                     }
-                    
+
                     editBody[input.name] = input.value
                 })
 
-                if(count !== 0) {
+                if (count !== 0) {
                     count = 0
                     return toast(red, 'Por favor preencha todos os campos')
                 }
 
                 await updateEmployee(employeeId, editBody)
                 modal.close()
-                toast(green, 'Usuario editado')
                 renderSelect()
             })
 
@@ -347,24 +296,21 @@ export async function handleDeleteUser() {
     const name = document.querySelector('.delete__name--user')
 
     const employees = await allEmployeesRequest()
-    
+
     //pegando todos os botoes de edite e adicionando as funções
     buttons.forEach(button => {
         button.addEventListener('click', () => {
             modal.showModal()
-            
+
             const employeeId = button.value
             employees.forEach(emp => {
-                if(emp.id == employeeId) {
-                    name.innerText = "Realmente deseja remover o usuário "+ emp.name +"?"
+                if (emp.id == employeeId) {
+                    name.innerText = "Realmente deseja remover o usuário " + emp.name + "?"
                 }
-                console.log(emp.id)
-                console.log(employeeId)
-                console.log('----')
             })
-            
+
             //request editar
-            deleteButton.addEventListener('click', async () => {                    
+            deleteButton.addEventListener('click', async () => {
                 await deleteEmployee(employeeId)
                 modal.close()
                 toast(green, 'Usuario deletado com sucesso')
