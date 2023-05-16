@@ -275,34 +275,6 @@ li > button {
     padding: 11px 82px;
 }
 
-.dialog__delete {
-    height: 250px;
-    width: 700px;
-    border: none;
-}
-
-.delete__name {
-    font-size: var(--font-1);
-    font-weight: var(--font-weight-1);
-
-    margin: 40px 120px;
-}
-
-.delete__button {
-    background-color: var(--orange);
-    font-size: var(--font-3);
-    font-weight: var(--font-weight-1);
-    color: var(--color-white);
-    border: 1px solid var(--orange);
-
-    margin-top: 20px;
-    margin-left: 140px;
-
-    height: 48px;
-    width: 422px;
-    padding: 11px 82px;
-}
-
 .dialog__create {
     height: 390px;
     width: 506px;
@@ -402,25 +374,56 @@ li > button {
     padding: 11px 82px;
 }
 
-.delete__name--dep {
 
+.modal__delete--dep {
+    height: 280px;
+    width: 733px;
+    border: none;
+}
+
+.modal__delete--user {
+    height: 240px;
+    width: 700px;
+    border: none;
+}
+
+.delete__name--dep {
+    font-size: var(--font-1);
     font-weight: var(--font-weight-1);
 
-    margin-top: 60px;
-    margin: 0px 90px;
+    margin: 50px 67px 38px 67px;
+    line-height: 42px;
+}
+.delete__name--user {
+    font-size: var(--font-1);
+    font-weight: var(--font-weight-1);
+
+    margin: 30px 100px 34px 100px;
     line-height: 42px;
 }
 
-.delete__department {
+.button__delete--department {
     background-color: var(--orange);
     font-size: var(--font-3);
     font-weight: var(--font-weight-1);
     color: var(--color-white);
     border: 1px solid var(--orange);
 
+    margin-left: 140px;
+
+    height: 48px;
+    width: 422px;
+    padding: 11px 82px;
+}
+
+.button__delete--user {
+    background-color: var(--orange);
+    font-size: var(--font-3);
+    font-weight: var(--font-weight-1);
+    color: var(--color-white);
+    border: 1px solid var(--orange);
 
     margin-left: 140px;
-    margin-top: 38px;
 
     height: 48px;
     width: 422px;

@@ -1,7 +1,7 @@
 import { toast, red, green } from "./toast.js"
 
 import { readAll } from "./requests.js"
-import { allEmployeesRequest, allDepartmentsRequest, updateDepartment, createDepartment, deleteDepartment, outOfWorkRequest, updateEmployee, hireEmployee, dismissEmployee } from "./adminRequests.js"
+import { allEmployeesRequest, allDepartmentsRequest, updateDepartment, createDepartment, deleteDepartment, outOfWorkRequest, updateEmployee, hireEmployee, dismissEmployee, deleteEmployee } from "./adminRequests.js"
 import { renderSelect, renderDepartments, renderUsers } from "./adminRender.js"
 
 //segurança da pagina de admin
@@ -27,12 +27,12 @@ function handleLogout() {
 //fechar Madais
 function closeModal() {
     const closeButtons = document.querySelectorAll(".close__button")
+    const create = document.querySelector('.dialog__create')
     const look = document.querySelector('.dialog__look')
     const editUser = document.querySelector('.dialog__edit--user')
-    const deleteUser = document.querySelector('.dialog__delete')
-    const create = document.querySelector('.dialog__create')
     const editDep = document.querySelector('.dialog__edit--dep')
-    const deleteDep = document.querySelector('.dialog__delete')
+    const deleteUser = document.querySelector('.modal__delete--user')
+    const deleteDep = document.querySelector('.modal__delete--dep')
 
     closeButtons.forEach(button => {
         button.addEventListener("click", () => {
@@ -98,8 +98,9 @@ async function handleCreate() {
                 return toast(red, 'Por favor preencha todos os campos')
             } else {
                 await createDepartment(createBody)
-                
                 modal.close()
+                toast(green, 'Departamento criado com sucesso')
+                renderSelect()
             }
         })
         closeModal()
@@ -219,23 +220,35 @@ export async function handleEditDepartment() {
             modal.showModal()
             
             const departmentId = button.value
-            const description = input.value
-            let departmentName = ''
 
-            departments.forEach(depart => {
-                if(depart.id == departmentId) {
-                    departmentName = depart.name
-                }
-            });
-            
-            const updateBody = {
-                "description":`${description}`,
-                "name": `${departmentName}`
-            }
-        
             //request editar
-            editButton.addEventListener('click', async () => {                    
+            editButton.addEventListener('click', async () => {
+
+                let description = input.value
+
+                if(description.trim() === '') {
+                    return toast(red, 'Por favor preencha todos os campos')
+                }
+
+                let departmentName = ''
+                //pegar o nome do departamento
+                departments.forEach(depart => {
+                    if(depart.id == departmentId) {
+                        departmentName = depart.name
+                    }
+                })
+
+                //body do edit
+                const updateBody = {
+                    "description":`${description}`,
+                    "name": `${departmentName}`
+                }
+
+                description = ''                
                 await updateDepartment(departmentId, updateBody)
+                modal.close()
+                toast(green, 'Departamento editado')
+                renderSelect()
             })
 
             closeModal()
@@ -248,9 +261,9 @@ export async function handleEditDepartment() {
 export async function handleDeleteDepartment() {
     const buttons = document.querySelectorAll('.dep__delete')
 
-    const modal = document.querySelector('.dialog__delete')
-    const deleteButton = document.querySelector('.delete__department')
+    const modal = document.querySelector('.modal__delete--dep')
     const name = document.querySelector('.delete__name--dep')
+    const deleteButton = document.querySelector('.button__delete--department')
 
     const departments = await allDepartmentsRequest()
     
@@ -261,6 +274,7 @@ export async function handleDeleteDepartment() {
             
             const departmentId = button.value
 
+            //renderizar o nome do departamento
             departments.forEach(depart => {
                 if(depart.id == departmentId) {
                     name.innerText = `Realmente deseja remover o ${depart.name} e demitir seus funcionários?`
@@ -271,6 +285,8 @@ export async function handleDeleteDepartment() {
             deleteButton.addEventListener('click', async () => {                    
                 await deleteDepartment(departmentId)
                 modal.close()
+                toast(green, 'Departamento deletado')
+                renderSelect()
             })
         })
 
@@ -283,32 +299,38 @@ export async function handleEditUser() {
     const buttons = document.querySelectorAll('.user__edit')
 
     const modal = document.querySelector('.dialog__edit--user')
-    const inputs = document.querySelector('.edit__user')
+    const inputs = document.querySelectorAll('.edit__user')
     const editButton = document.querySelector('.button__edit--user')
     let editBody = {}
     let count = 0
 
     //pegando todos os botoes de edite e adicionando as funções
     buttons.forEach(button => {
-        button.addEventListener('click', async () => {
+        button.addEventListener('click', () => {
             modal.showModal()
             
-            inputs.forEach(input => {
-                if(input.value.trim() === '') {
-                    count++
-                }
-    
-                editBody[input.name] = input.value
-            })
-
             const employeeId = button.value
 
-            if(count !== 0) {
-                count =0
-                return toast(red, 'Por favor preencha todos os campos')
-            } else {
+            editButton.addEventListener('click', async () => {
+
+                inputs.forEach(input => {
+                    if(input.value.trim() === '') {
+                        count++
+                    }
+                    
+                    editBody[input.name] = input.value
+                })
+
+                if(count !== 0) {
+                    count = 0
+                    return toast(red, 'Por favor preencha todos os campos')
+                }
+
                 await updateEmployee(employeeId, editBody)
-            }
+                modal.close()
+                toast(green, 'Usuario editado')
+                renderSelect()
+            })
 
             closeModal()
         })
@@ -320,9 +342,9 @@ export async function handleEditUser() {
 export async function handleDeleteUser() {
     const buttons = document.querySelectorAll('.user__trash')
 
-    const modal = document.querySelector('.dialog__delete')
-    const deleteButton = document.querySelector('.delete__button')
-    const name = document.querySelector('.delete__name')
+    const modal = document.querySelector('.modal__delete--user')
+    const deleteButton = document.querySelector('.button__delete--user')
+    const name = document.querySelector('.delete__name--user')
 
     const employees = await allEmployeesRequest()
     
@@ -332,16 +354,21 @@ export async function handleDeleteUser() {
             modal.showModal()
             
             const employeeId = button.value
-
             employees.forEach(emp => {
                 if(emp.id == employeeId) {
-                    name = "Realmente deseja remover o usuário "+ emp.name +"?"
+                    name.innerText = "Realmente deseja remover o usuário "+ emp.name +"?"
                 }
-            });
+                console.log(emp.id)
+                console.log(employeeId)
+                console.log('----')
+            })
             
             //request editar
             deleteButton.addEventListener('click', async () => {                    
                 await deleteEmployee(employeeId)
+                modal.close()
+                toast(green, 'Usuario deletado com sucesso')
+                renderSelect()
             })
 
             closeModal()

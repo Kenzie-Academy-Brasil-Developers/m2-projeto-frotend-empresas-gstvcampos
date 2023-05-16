@@ -25,13 +25,14 @@ export async function renderSelect() {
 
     select.addEventListener('change', async () => {
         const value = select.value
-        console.log(value)
         const filteredUsers = []
+
         if (value == '') {
             renderDepartments(departments)
             renderUsers(users)
         } else {
             users.forEach(user => {
+                console.log(user)
                 if(user.company_id == value) {
                     filteredUsers.push(user)
                 }
@@ -118,22 +119,28 @@ export async function renderUsers(array) {
         editButton.classList.add('user__edit')
         deleteButton.classList.add('user__trash')
 
-        const id = element.company_id
+        editImg.src = "../assets/edit.svg"
+        deleteImg.src = "../assets/trash.svg"
 
+        deleteButton.value = element.id
+        editButton.value = element.id
         name.innerText = element.name
+        
+        const id = element.company_id
 
         //colocar o nome da empresa ou sem empresa
         campanies.forEach(companyy => {
+            // console.log(companyy.id)
+            // console.log(id)
+            // console.log(companyy.name)
+            // console.log('-----')
             if(companyy.id == id) {
                 company.innerText = companyy.name
             } else {
                 company.innerText = 'Sem empresa'
             }
-        });
+        })
         
-        editImg.src = "../assets/edit.svg"
-        deleteImg.src = "../assets/trash.svg"
-
         li.append(name, company, editButton, deleteButton)
         editButton.appendChild(editImg)
         deleteButton.appendChild(deleteImg)

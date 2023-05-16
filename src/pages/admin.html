@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,6 +17,7 @@
     <!-- script -->
     <script defer type="module" src="../scripts/admin.js"></script>
 </head>
+
 <body>
     <header class="header__container">
         <div class="header__items">
@@ -23,7 +25,7 @@
                 <img src="../assets/Ellipse 1.svg" alt="">
                 <img src="../assets/Kenzie Empresas.svg" alt="">
             </div>
-                <button class="white__button logout">Logout</button>
+            <button class="white__button logout">Logout</button>
         </div>
     </header>
 
@@ -47,7 +49,7 @@
                 </li>
             </ul>
         </section>
-            
+
         <section>
             <h2>Usuários cadastrados</h2>
             <ul class="ul__user">
@@ -63,7 +65,7 @@
         <dialog class="dialog__create">
             <div class="div__create">
                 <button class="close__button"><img src="../assets/close.svg" alt=""></button>
-                
+
                 <h2>Criar Departamento</h2>
                 <input class="create__input" type="text" name="name" placeholder="Nome do departamento">
                 <input class="create__input" type="text" name="description" placeholder="Descrição">
@@ -93,52 +95,54 @@
         <dialog class="dialog__edit--dep">
             <div class="div__edit--dep">
                 <button class="close__button"><img src="../assets/close.svg" alt=""></button>
-                
+
                 <h2>Editar Departamento</h2>
 
                 <input class="edit__department" type="text" placeholder="Valores anteriores da descrição">
-            
+
                 <button class="button__edit--dep">Salvar</button>
-            </div>
-        </dialog>
-
-        <dialog class="dialog__delete">
-            <div class="div__delete--dep">
-                <button class="close__button"><img src="../assets/close.svg" alt=""></button>
-                
-                <h2 class="delete__name--dep">Realmente deseja remover o Departamento NOME demitir seus funcionários?</h2>
-
-                <button class="delete__department">Remover</button>
             </div>
         </dialog>
 
         <dialog class="dialog__edit--user">
             <div class="div__edit--user">
                 <button class="close__button"><img src="../assets/close.svg" alt=""></button>
-                
+
                 <h2 class="name__edit--user">Editar Usuário</h2>
                 <input class="edit__user" name="name" type="text" placeholder="Nome">
                 <input class="edit__user" name="email" type="email" name="" id="" placeholder="E-mail">
-            
+
                 <button class="button__edit--user">Salvar</button>
             </div>
         </dialog>
 
-        <dialog class="dialog__delete">
+        <dialog class="modal__delete--dep">
+            <div class="div__delete">
+                <button class="close__button"><img src="../assets/close.svg" alt=""></button>
+
+                <h2 class="delete__name--dep">Realmente deseja remover o Departamento NOME demitir seus funcionários?
+                </h2>
+
+                <button class="button__delete--department">Remover</button>
+            </div>
+        </dialog>
+
+        <dialog class="modal__delete--user">
             <div class="delete__div">
                 <button class="close__button"><img src="../assets/close.svg" alt=""></button>
-                
-                <h2 class="delete__name">Realmente deseja remover o usuário NOME?</h2>
 
-                <button class="delete__button">Remover</button>
+                <h2 class="delete__name--user">Realmente deseja remover o usuário NOME?</h2>
+
+                <button class="button__delete--user">Remover</button>
             </div>
         </dialog>
 
     </main>
-        <!-- Código do TOAST -->
+    <!-- Código do TOAST -->
     <div class="toast__container hidden">
-    <p>Login realizado com sucesso</p>
+        <p>Login realizado com sucesso</p>
     </div>
 
 </body>
+
 </html>
