@@ -38,26 +38,29 @@ async function renderPage() {
 
     if (companyID !== null) {
         div.innerHTML = ''
+        div.classList.add('div__company--hired')
         const companyInfo = await companyRequest(companyID)
         const departmentInfo = await departmentRequest(departmentID)
 
-        const company = document.createElement('span')
-        const department = document.createElement('span')
+        console.log(departmentInfo)
+        const title = document.createElement('h1')
         const titleDiv = document.createElement('div')
         const ul = document.createElement('ul')
 
         titleDiv.classList.add('div__title')
+        title.classList.add('title__company')
 
-        company.innerText = companyInfo.name
-        department.innerText = departmentInfo.name
+        title.innerText = `${companyInfo.name} - ${departmentInfo.name}`
 
-        titleDiv.append(company, department)
+        titleDiv.appendChild(title)
 
         departmentInfo.employees.forEach(employee => {
             const li = document.createElement('li')
-            const employeeName = document.createElement('h3')
+            const employeeName = document.createElement('h2')
 
             employeeName.classList.add('employee__name')
+            employeeName.innerText = employee.name
+            li.appendChild(employeeName)
             ul.appendChild(li)
         });
 
@@ -68,5 +71,4 @@ async function renderPage() {
 
 authentication()
 handleLogout()
-
 renderPage()
